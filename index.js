@@ -23,36 +23,35 @@ function mainList() {
             name: "userChoices",
             message: "Select what you'd like to do:",
             choices: [
-                "+Departments",
-                "+Roles",
-                "+Employees",
-                "Departments",
-                "Roles",
-                "Employees",
-                "Update",
-                "Done!"
+                "Add Departments",
+                "Add Roles",
+                "Add Employees",
+                "See Departments",
+                "See Roles",
+                "See Employees",
+                "Employee Update"
             ]
         }]).then(result => {
         switch(result.userChoices) {
-            case "+Departments":
+            case "Add Departments":
                 addDepartments();
                 break;
-            case "+Roles":
+            case "Add Roles":
                 addRoles();
                 break;
-            case "+Employees":
+            case "Add Employees":
                 addEmployees();
                 break;
-            case "Departments":
+            case "See Departments":
                 allDepartments();
                 break;
-            case "Roles":
+            case "See Roles":
                 allRoles();
                 break;
-            case "Employees":
+            case "See Employees":
                 allEmployees();
                 break;
-            case "Update":
+            case "Employee Update":
                 update();
         }
     })
@@ -99,8 +98,19 @@ function allRoles(role) {
     })
 }
 
-function allEmployees(){
-   
+function allEmployees(employee){
+    var query_str = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee;";
+    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+        } else {
+            let employee = rows;
+            console.table("\n");
+            console.table(employee)
+            
+        }
+        mainList();
+    })
 }
 
 function update() {
