@@ -48,3 +48,35 @@ function mainList() {
         }
     })
 }
+
+function addDepartments() {
+
+}
+
+function addRoles() {
+
+}
+
+function addEmployees() {
+
+}
+
+function allDepartments() {
+
+}
+
+function addRoles() {
+
+}
+
+function employees(){
+
+}
+
+function update() {
+
+}
+
+function quit() {
+    process.exit;
+}
