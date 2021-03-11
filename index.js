@@ -54,9 +54,6 @@ function mainList() {
                 break;
             case "Update":
                 update();
-                break;
-            default:
-                quit();
         }
     })
 }
@@ -82,12 +79,9 @@ function addRoles() {
 }
 
 function allEmployees(){
+
 }
 
 function update() {
 
-}
-
-function quit() {
-    process.exit;
 }
