@@ -1,4 +1,4 @@
-const connection = require("./connection");
+const connection = require("./db/connection");
 const { prompt } = require("inquirer");
 const db = require("./db");
 require("console.table");
@@ -38,7 +38,7 @@ function mainList() {
                 addRoles();
                 break;
             case "Employees":
-                employees();
+                allEmployees();
                 break;
             case "Update":
                 update();
@@ -69,8 +69,7 @@ function addRoles() {
 
 }
 
-function employees(){
-
+function allEmployees(){
 }
 
 function update() {
