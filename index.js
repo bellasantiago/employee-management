@@ -1,7 +1,19 @@
 const connection = require("./db/connection");
 const { prompt } = require("inquirer");
-const db = require("./db");
+const mysql = require("mysql2");
 require("console.table");
+
+const connectMYSQL = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "mysql",
+    database: "staff_db"
+  });
+
+  connectMYSQL.connect((err) => {
+      if (err) throw err;
+      mainList();
+  })
 
 console.log("Let's have a look at the company's staff!")
 
@@ -21,7 +33,7 @@ function mainList() {
                 "Done!"
             ]
         }]).then(result => {
-        switch(userAnswers.userChoices) {
+        switch(result.userChoices) {
             case "+Departments":
                 addDepartments();
                 break;
