@@ -77,14 +77,26 @@ function allDepartments(department) {
             console.log(err);
         } else {
             let department = rows;
-            console.table(department)
+            console.table("\n");
+            console.table(department);
         }
+        mainList();
     })
-    mainList();
 }
 
-function allRoles() {
-
+function allRoles(role) {
+    var query_str = "SELECT role.id, role.title, role.salary, role.department_id FROM role;";
+    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+        } else {
+            let role = rows;
+            console.table("\n");
+            console.table(role)
+            
+        }
+        mainList();
+    })
 }
 
 function allEmployees(){
