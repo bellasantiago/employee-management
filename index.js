@@ -14,8 +14,11 @@ const connectMYSQL = mysql.createConnection({
       if (err) throw err;
       mainList();
   })
-
-console.log("Let's have a look at the company's staff!")
+console.log("\n");
+console.log("\n");
+console.log("LET'S HAVE A LOOK AT THE COMPANY'S STAFF!");
+console.log("\n");
+console.log("\n");
 
 function mainList() {
     prompt([{
@@ -29,7 +32,7 @@ function mainList() {
                 "See Departments",
                 "See Roles",
                 "See Employees",
-                "Employee Update"
+                "Employee Role Update"
             ]
         }]).then(result => {
         switch(result.userChoices) {
@@ -51,27 +54,61 @@ function mainList() {
             case "See Employees":
                 allEmployees();
                 break;
-            case "Employee Update":
+            case "Employee Role Update":
                 update();
         }
     })
 }
 
-function addDepartments() {
+function addDepartments(department) {
+    prompt([
+        {
+            name: "name",
+            message: "Please enter department name."
+        }
+    ]).then(res => {
+        let name = res;
+          console.log(name);
+        })
+    .then(() => mainList())
 
-}
+};
 
 function addRoles() {
-
+    prompt([
+        {
+            name: "title",
+            message: "Please enter role title."
+        }
+    ]).then(res => {
+        let name = res;
+          console.log(name);
+        })
+    .then(() => mainList())
 }
 
 function addEmployees() {
-
+    prompt([
+        {
+            name: "first_name",
+            message: "Please enter employee's first name."
+        },{
+            name: "last_name",
+            message: "Please enter employee's last name."
+        },
+    ]).then(res => {
+        let firstName = res.first_name;
+        let lastName = res.last_name;
+          console.log(first_name);
+          console.log(last_name);
+        })
+    
+    .then(() => mainList())
 }
 
 function allDepartments(department) {
     var query_str = "SELECT department.id, department.name FROM department;";
-    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+    var query = connectMYSQL.query(query_str, function (err, rows) {
         if (err) {
             console.log(err);
         } else {
@@ -85,7 +122,7 @@ function allDepartments(department) {
 
 function allRoles(role) {
     var query_str = "SELECT role.id, role.title, role.salary, role.department_id FROM role;";
-    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+    var query = connectMYSQL.query(query_str, function (err, rows) {
         if (err) {
             console.log(err);
         } else {
@@ -100,7 +137,7 @@ function allRoles(role) {
 
 function allEmployees(employee){
     var query_str = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee;";
-    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+    var query = connectMYSQL.query(query_str, function (err, rows) {
         if (err) {
             console.log(err);
         } else {
@@ -115,4 +152,4 @@ function allEmployees(employee){
 
 function update() {
 
-}
+};
