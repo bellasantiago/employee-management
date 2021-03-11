@@ -47,7 +47,7 @@ function mainList() {
                 allDepartments();
                 break;
             case "Roles":
-                addRoles();
+                allRoles();
                 break;
             case "Employees":
                 allEmployees();
@@ -70,16 +70,25 @@ function addEmployees() {
 
 }
 
-function allDepartments() {
-
+function allDepartments(department) {
+    var query_str = "SELECT department.id, department.name FROM department;";
+    var query = connectMYSQL.query(query_str, function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+        } else {
+            let department = rows;
+            console.table(department)
+        }
+    })
+    mainList();
 }
 
-function addRoles() {
+function allRoles() {
 
 }
 
 function allEmployees(){
-
+   
 }
 
 function update() {
