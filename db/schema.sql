@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS staff;
+CREATE DATABASE staff;
+
+CREATE TABLE employee;
+CREATE TABLE role;
+CREATE TABLE department;
