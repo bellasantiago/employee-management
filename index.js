@@ -73,7 +73,6 @@ function addDepartments() {
             const query_str = "INSERT INTO department (name) VALUES (?);";
             connectMYSQL.query(query_str, [answer.department], (err, res) => {
                 if (err) throw err;
-                console.log(answer);
             });
         })
     .then(() => mainList())
@@ -84,11 +83,23 @@ function addRoles() {
     prompt([
         {
             name: "title",
-            message: "Please enter role title."
-        }
-    ]).then(res => {
-        let name = res;
-          console.log(name);
+            type: "input",
+            message: "Please enter role's title name."
+        },{
+            name: "salary",
+            type: "input",
+            message: "Please enter role's salary."
+        },{
+            name: "departmentID",
+            type: "input",
+            message: "Please enter the department this role belongs to."
+        },
+
+    ]).then((answer) => {
+            const query_str = "INSERT INTO role (title, salary, department_id) VALUES (?,?,?);";
+            connectMYSQL.query(query_str, [answer.title, answer.salary, answer.departmentID], (err, res) => {
+                if (err) throw err;
+            });
         })
     .then(() => mainList())
 }
