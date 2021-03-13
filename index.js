@@ -1,6 +1,8 @@
 const connection = require("./db/connection");
 const { prompt } = require("inquirer");
-const mysql = require("mysql2");
+const mysql2 = require("mysql2");
+
+const mysql = require("mysql");
 require("console.table");
 
 const connectMYSQL = mysql.createConnection({
@@ -60,15 +62,19 @@ function mainList() {
     })
 }
 
-function addDepartments(department) {
+function addDepartments() {
     prompt([
         {
-            name: "name",
+            name: "department",
+            type: "input",
             message: "Please enter department name."
         }
-    ]).then(res => {
-        let name = res;
-          console.log(name);
+    ]).then((answer) => {
+            const query_str = "INSERT INTO department (name) VALUES (?);";
+            connectMYSQL.query(query_str, [answer.department], (err, res) => {
+                if (err) throw err;
+                console.log(answer);
+            });
         })
     .then(() => mainList())
 
@@ -96,11 +102,8 @@ function addEmployees() {
             name: "last_name",
             message: "Please enter employee's last name."
         },
-    ]).then(res => {
-        let firstName = res.first_name;
-        let lastName = res.last_name;
-          console.log(first_name);
-          console.log(last_name);
+    ]).then(result => {
+        
         })
     
     .then(() => mainList())
