@@ -22,6 +22,7 @@ console.log("LET'S HAVE A LOOK AT THE COMPANY'S STAFF!");
 console.log("\n");
 console.log("\n");
 
+
 function mainList() {
     prompt([{
             type: "list",
@@ -34,7 +35,8 @@ function mainList() {
                 "See Departments",
                 "See Roles",
                 "See Employees",
-                "Employee Role Update"
+                "Employee Role Update",
+                "Quit"
             ]
         }]).then(result => {
         switch(result.userChoices) {
@@ -58,6 +60,8 @@ function mainList() {
                 break;
             case "Employee Role Update":
                 update();
+            case "Quit":
+                process.exit();
         }
     })
 }
@@ -79,7 +83,17 @@ function addDepartments() {
 
 };
 
-function addRoles() {
+var dptChoices = []
+
+function addRoles(roles) {
+    const departmentChoice = () => {
+        let query_str = "SELECT department.id, department.name FROM department;";
+        connectMYSQL.query(query_str, (err, res) => {
+            if (err) throw err;
+            let dptChoices = res.map(a => a.name);
+            console.log(dptChoices);
+            })
+    };
     prompt([
         {
             name: "title",
@@ -91,8 +105,9 @@ function addRoles() {
             message: "Please enter role's salary."
         },{
             name: "departmentID",
-            type: "input",
-            message: "Please enter the department this role belongs to."
+            type: "list",
+            message: "Please enter the department this role belongs to.",
+            choices: dptChoices
         },
 
     ]).then((answer) => {
@@ -112,6 +127,12 @@ function addEmployees() {
         },{
             name: "last_name",
             message: "Please enter employee's last name."
+        },{
+            name: "role_id",
+            message: roleID
+        },{
+            name: "manager_id",
+            message: managerID
         },
     ]).then(result => {
         
