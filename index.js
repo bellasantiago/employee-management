@@ -22,7 +22,6 @@ console.log("LET'S HAVE A LOOK AT THE COMPANY'S STAFF!");
 console.log("\n");
 console.log("\n");
 
-
 function mainList() {
     prompt([{
             type: "list",
@@ -58,8 +57,6 @@ function mainList() {
             case "See Employees":
                 allEmployees();
                 break;
-            case "Employee Role Update":
-                update();
             case "Quit":
                 process.exit();
         }
@@ -90,7 +87,7 @@ function addRoles(roles) {
         let query_str = "SELECT department.id, department.name FROM department;";
         connectMYSQL.query(query_str, (err, res) => {
             if (err) throw err;
-            let dptChoices = res.map(a => a.name);
+            let dptChoices = res.map(a => a.department);
             console.log(dptChoices);
             })
     };
@@ -134,8 +131,11 @@ function addEmployees() {
             name: "manager_id",
             message: managerID
         },
-    ]).then(result => {
-        
+    ]).then((answer) => {
+        const query_str = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?);";
+            connectMYSQL.query(query_str, [answer.first_name, answer.first_name, answer.role_id, answer.manager_id], (err, res) => {
+                if (err) throw err;
+            });
         })
     
     .then(() => mainList())
@@ -184,7 +184,3 @@ function allEmployees(employee){
         mainList();
     })
 }
-
-function update() {
-
-};
