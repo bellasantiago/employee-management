@@ -1,7 +1,5 @@
-const connection = require("./db/connection");
 const { prompt } = require("inquirer");
 const mysql2 = require("mysql2");
-
 const mysql = require("mysql");
 require("console.table");
 
@@ -84,8 +82,7 @@ function addRoles(roles) {
     let query_str = "SELECT department.id, department.name FROM department;";
     connectMYSQL.query(query_str, (err, res) => {
         if (err) throw err;
-        let dptChoices = res.map(a => a.department);
-        console.log(dptChoices);
+        let dptChoices = res.map(department => ({ name: department.name, value: department.id }));
         prompt([
             {
                 name: "title",
@@ -99,7 +96,7 @@ function addRoles(roles) {
                 name: "departmentID",
                 type: "list",
                 message: "Please enter the department this role belongs to.",
-                choices: ["dptChoices"]
+                choices: dptChoices
             },
 
         ]).then((answer) => {
@@ -114,70 +111,72 @@ function addRoles(roles) {
 }
 
 function addEmployees() {
-    prompt([
-        {
-            name: "first_name",
-            message: "Please enter employee's first name."
-        }, {
-            name: "last_name",
-            message: "Please enter employee's last name."
-        }, {
-            name: "role_id",
-            message: roleID
-        }, {
-            name: "manager_id",
-            message: managerID
-        },
-    ]).then((answer) => {
-        const query_str = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?);";
-        connectMYSQL.query(query_str, [answer.first_name, answer.first_name, answer.role_id, answer.manager_id], (err, res) => {
-            if (err) throw err;
-        });
-    })
+    let query_str = "SELECT role.id, role.title FROM role;";
+    connectMYSQL.query(query_str, (err, res) => {
+        if (err) throw err;
+        let roleChoice = res.map(a => ({ name: a.title, value: a.id }));
+        prompt([
+            {
+                name: "first_name",
+                message: "Please enter employee's first name."
+            }, {
+                name: "last_name",
+                message: "Please enter employee's last name."
+            }, {
+                name: "role_id",
+                message: roleChoice
+            }
+        ]).then((answer) => {
+            const query_str = "INSERT INTO employee (first_name, last_name, role_id) VALUES (?,?,?);";
+            connectMYSQL.query(query_str, [answer.first_name, answer.last_name, answer.role_id], (err, res) => {
+                if (err) throw err;
+            });
+        })
 
-        .then(() => mainList())
-}
+            .then(() => mainList())
+    });
+};
 
 function allDepartments(department) {
-    var query_str = "SELECT department.id, department.name FROM department;";
-    var query = connectMYSQL.query(query_str, function (err, rows) {
-        if (err) {
-            console.log(err);
-        } else {
-            let department = rows;
-            console.table("\n");
-            console.table(department);
+            var query_str = "SELECT department.id, department.name FROM department;";
+            var query = connectMYSQL.query(query_str, function (err, rows) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let department = rows;
+                    console.table("\n");
+                    console.table(department);
+                }
+                mainList();
+            })
         }
-        mainList();
-    })
-}
 
 function allRoles(role) {
-    var query_str = "SELECT role.id, role.title, role.salary, role.department_id FROM role;";
-    var query = connectMYSQL.query(query_str, function (err, rows) {
-        if (err) {
-            console.log(err);
-        } else {
-            let role = rows;
-            console.table("\n");
-            console.table(role)
+            var query_str = "SELECT role.id, role.title, role.salary, role.department_id FROM role;";
+            var query = connectMYSQL.query(query_str, function (err, rows) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let role = rows;
+                    console.table("\n");
+                    console.table(role)
 
+                }
+                mainList();
+            })
         }
-        mainList();
-    })
-}
 
 function allEmployees(employee) {
-    var query_str = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee;";
-    var query = connectMYSQL.query(query_str, function (err, rows) {
-        if (err) {
-            console.log(err);
-        } else {
-            let employee = rows;
-            console.table("\n");
-            console.table(employee)
+            var query_str = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee;";
+            var query = connectMYSQL.query(query_str, function (err, rows) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let employee = rows;
+                    console.table("\n");
+                    console.table(employee)
 
+                }
+                mainList();
+            })
         }
-        mainList();
-    })
-}
