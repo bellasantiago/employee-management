@@ -32,7 +32,7 @@ npm i
   ## Usage📋
   
 ```
-node start
+node index
 ```
 
   ---
