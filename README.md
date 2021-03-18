@@ -39,7 +39,7 @@ node index
 
   ## Sample🎥
   
-  Here is a walkthrough video of how the application runs. [ClickMe]()
+  Here is a walkthrough video of how the application runs. [ClickMe](https://github.com/bellasantiago/employee-management)
 
   ---
 
